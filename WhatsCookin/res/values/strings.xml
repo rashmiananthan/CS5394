@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WhatsCookin</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_sign_up">SignUp</string>
+    <string name="title_activity_log_in">LogIn</string>
+    <string name="title_activity_home_page">HomePage</string>
+    <string name="email_label">Username</string>
+    <string name="pwd_label">Password</string>
+    <string name="login">LOGIN</string>
+    <string name="hello_world">HELLO WORLD</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_search_recipes">SearchRecipes</string>
+    <string name="title_activity_add_recipes">AddRecipes</string>
+    <string name="title_activity_view_favorites">ViewFavorites</string>
+
+    <string-array name="calories_array">
+        <item>Any</item>
+        <item>Less than 100 calories</item>
+        <item>Less than 250 calories</item>
+        <item>Less than 500 calories</item>
+        <item>Less than 1000 calories</item>
+    </string-array>
+    <string-array name="cook_time_array">
+        <item>Any</item>
+        <item>Less than 20 mins</item>
+        <item>Less than 30 mins</item>
+        <item>Less than 45 mins</item>
+        <item>Less than 1 hour</item>
+    </string-array>
+    <string name="missing_ingredient_message">You must enter at least one ingredient you would like in your recipe.</string>
+    <string name="ok">OK</string>
+    
+    <string name="title_activity_favorites">Favorites</string>
+    <string name="title_activity_submit_recipe">SubmitRecipe</string>
+    <string name="name">Recipe Name</string>
+    <string name="calories">Number of Calories</string>
+    <string name="cook_time">Cook Time</string>
+    <string name="title_activity_display_results">DisplayResults</string>
+    <string name="title_activity_display_recipe">DisplayRecipe</string>
+    <string name="button_no_thanks">No Thanks!</string>
+    
+</resources>

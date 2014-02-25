@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.whatscookin"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="18" />
+
+    <!-- Allow to connect with internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.example.whatscookin.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.whatscookin.SignUp"
+            android:label="@string/title_activity_sign_up" >
+        </activity>
+        <activity
+            android:name="com.example.whatscookin.LogIn"
+            android:label="@string/title_activity_log_in" >
+        </activity>
+        <activity
+            android:name="com.example.whatscookin.HomePage"
+            android:label="@string/title_activity_home_page" >
+        </activity>
+        <activity
+            android:name="com.example.whatscookin.SearchActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
+        <activity
+            android:name="com.example.whatscookin.SearchRecipes"
+            android:label="@string/title_activity_search_recipes" >
+        </activity>
+        <activity
+            android:name="com.example.whatscookin.AddRecipes"
+            android:label="@string/title_activity_add_recipes" >
+        </activity>
+        <activity
+            android:name="com.example.whatscookin.ViewFavorites"
+            android:label="@string/title_activity_view_favorites" >
+        </activity>
+        <activity
+            android:name="com.example.whatscookin.DisplayResults"
+            android:label="@string/title_activity_display_results" >
+        </activity>
+        <activity
+            android:name="com.example.whatscookin.DisplayRecipe"
+            android:label="@string/title_activity_display_recipe" >
+        </activity>
+    </application>
+
+</manifest>
