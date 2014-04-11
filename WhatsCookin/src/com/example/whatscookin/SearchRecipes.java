@@ -19,6 +19,7 @@ import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.support.v4.app.NavUtils;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Build;
@@ -27,13 +28,13 @@ public class SearchRecipes extends ListActivity implements OnItemSelectedListene
 
 	private Spinner calories_spinner;
 	private Spinner cook_time_spinner;
-	
-    ArrayList<HashMap<String, String>> ingredientList;	
-    
+	//public final static String EXTRA_MESSAGE = "sending ingredients";
+	//ArrayList<HashMap<String, String>> ingredientList;	
+	ArrayList<String> ingredientList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ingredientList = new ArrayList<HashMap<String, String>>();
+		ingredientList = new ArrayList<String>();
 		
 		setContentView(R.layout.activity_search_recipes);
 		// Show the Up button in the action bar.
@@ -79,6 +80,8 @@ public class SearchRecipes extends ListActivity implements OnItemSelectedListene
         // Another interface callback
     }
     
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	@SuppressLint("NewApi")
 	public void onSearchClicked(View view)
 	{
 		if(ingredientList.isEmpty())
@@ -90,6 +93,8 @@ public class SearchRecipes extends ListActivity implements OnItemSelectedListene
 		{
 			//If the user has entered ingredients, Display results activity
 	    	Intent intent = new Intent(this, DisplayResults.class);
+	    	intent.putStringArrayListExtra("ingredient list", ingredientList);
+	    	//intent.putExtra(EXTRA_MESSAGE, ingredientList);
 	    	startActivity(intent);				
 		}
 		
@@ -99,18 +104,25 @@ public class SearchRecipes extends ListActivity implements OnItemSelectedListene
 	{
     	EditText editText = (EditText) findViewById(R.id.new_ingredient);
     	String newIngredient = editText.getText().toString();
-    	
+    	/*
     	HashMap<String, String> map = new HashMap<String, String>();
     	map.put("ingredient", newIngredient);
+    	*/
+    	ingredientList.add(newIngredient);
     	
-    	ingredientList.add(map);
+    	/*
+    	 ListAdapter adapter = new SimpleAdapter(
+                 SearchRecipes.this, ingredientList,
+                 R.layout.ingredient_item, new String[] { "ingredient"},
+                 new int[] { R.id.ingredient });
+         // updating listview
+         setListAdapter(adapter);*/
+    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(SearchRecipes.this,R.layout.ingredient_item, R.id.ingredient, ingredientList);
+    	setListAdapter(adapter);
     	
-        ListAdapter adapter = new SimpleAdapter(
-                SearchRecipes.this, ingredientList,
-                R.layout.ingredient_item, new String[] { "ingredient"},
-                new int[] { R.id.ingredient });
+        //ListAdapter adapter = new SimpleAdapter(SearchRecipes.this, ingredientList, R.layout.ingredient_item, R.id.ingredient );
         // updating listview
-        setListAdapter(adapter);    	
+        //setListAdapter(adapter);    	
 	}
 	/**
 	 * Set up the {@link android.app.ActionBar}, if the API is available.

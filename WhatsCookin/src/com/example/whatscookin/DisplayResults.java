@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
  
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,11 +36,11 @@ public class DisplayResults extends ListActivity  {
  
     // Creating JSON Parser object
     JSONParser jParser = new JSONParser();
- 
+    ArrayList<String> ingredients;
     ArrayList<HashMap<String, String>> recipesList;
  
     // url to get all products list
-    private static String url_get_results = "http://whatscookinadmin.dukealums.com/get_results.php";
+    private static String url_get_results = "http://whatscookinadmin.dukealums.com/search/get_results.php";
  
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
@@ -47,8 +48,9 @@ public class DisplayResults extends ListActivity  {
     private static final String TAG_ID = "id";
     private static final String TAG_NAME = "name";
     private static final String TAG_TIME = "time";
+    private static final String TAG_SCORE = "score";
     private static final String TAG_CALORIES = "calories";
- 
+   // private static final String QUERY = "onion";
     // products JSONArray
     JSONArray recipes = null;
     
@@ -59,6 +61,9 @@ public class DisplayResults extends ListActivity  {
 	        setContentView(R.layout.activity_display_results);
 	 
 	        // Hashmap for ListView
+	        Intent intent = getIntent();
+	        ingredients = new ArrayList<String>();
+	        ingredients = intent.getStringArrayListExtra("ingredient list");
 	        recipesList = new ArrayList<HashMap<String, String>>();
 	 
 	        // Loading products in Background Thread
@@ -66,6 +71,7 @@ public class DisplayResults extends ListActivity  {
 	 
 	        // Get listview
 	        ListView lv = getListView();
+	        
 	 
 	        // on seleting single product
 	        // launching Edit Product Screen
@@ -166,8 +172,14 @@ public class DisplayResults extends ListActivity  {
          * */
         protected String doInBackground(String... args) {
             // Building Parameters
+        	JSONArray  ingred = new JSONArray();
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            // getting JSON string from URL
+            for(String s : ingredients)
+            	ingred.put(s);
+            	//System.out.println("Ingredient:"+s);
+            	String inlist = ingred.toString();
+            	params.add(new BasicNameValuePair("query", inlist));
+            	Log.d("Ingredient List: ", inlist);
             JSONObject json = jParser.makeHttpRequest(url_get_results, "GET", params);
  
             Log.d("Recipes: ", json.toString());
@@ -190,7 +202,7 @@ public class DisplayResults extends ListActivity  {
                         String name = c.getString(TAG_NAME);
                         String time = c.getString(TAG_TIME);
                         String calories = c.getString(TAG_CALORIES);
-                        
+                        String score = c.getString(TAG_SCORE);
                         // creating new HashMap
                         HashMap<String, String> map = new HashMap<String, String>();
  
@@ -199,7 +211,7 @@ public class DisplayResults extends ListActivity  {
                         map.put(TAG_NAME, name);
                         map.put(TAG_CALORIES, calories);
                         map.put(TAG_TIME, time);
- 
+                        map.put(TAG_SCORE, score);
                         // adding HashList to ArrayList
                         recipesList.add(map);
                     }
