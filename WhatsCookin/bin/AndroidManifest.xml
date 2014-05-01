@@ -41,25 +41,45 @@
             android:name="com.example.whatscookin.SearchActivity"
             android:label="@string/title_activity_search" >
         </activity>
-        <activity
+       <activity
             android:name="com.example.whatscookin.SearchRecipes"
-            android:label="@string/title_activity_search_recipes" >
+            android:label="@string/title_activity_search_recipes" 
+            android:parentActivityName="com.example.whatscookin.HomePage" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.whatscookin.HomePage" /> 
         </activity>
         <activity
             android:name="com.example.whatscookin.AddRecipes"
-            android:label="@string/title_activity_add_recipes" >
+            android:label="@string/title_activity_add_recipes" 
+            android:parentActivityName="com.example.whatscookin.HomePage" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.whatscookin.HomePage" /> 
         </activity>
         <activity
             android:name="com.example.whatscookin.ViewFavorites"
-            android:label="@string/title_activity_view_favorites" >
+            android:label="@string/title_activity_view_favorites" 
+            android:parentActivityName="com.example.whatscookin.HomePage" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.whatscookin.HomePage" /> 
         </activity>
         <activity
             android:name="com.example.whatscookin.DisplayResults"
-            android:label="@string/title_activity_display_results" >
+            android:label="@string/title_activity_display_results" 
+            android:parentActivityName="com.example.whatscookin.SearchRecipes" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.whatscookin.SearchRecipes" />             
         </activity>
         <activity
             android:name="com.example.whatscookin.DisplayRecipe"
-            android:label="@string/title_activity_display_recipe" >
+            android:label="@string/title_activity_display_recipe" 
+            android:parentActivityName="com.example.whatscookin.DisplayResults" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.whatscookin.DisplayResults" />             
         </activity>
         <activity
             android:name="com.example.whatscookin.AddFavoriteRecipe"

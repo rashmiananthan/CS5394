@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,46 +6,47 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".HomePage" >
+    tools:context=".HomePage"
+    android:orientation="vertical" >     
 
     <TextView
         	android:id="@+id/username"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dip"
+            android:layout_marginBottom="20dip"
     		android:textSize="25dip"
             android:textStyle="bold" />
     
     <Button
         android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/button1"
         android:layout_centerVertical="true"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="10dip"
         android:text="Add Recipes" />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/button2"
         android:layout_below="@+id/button2"
-        android:layout_marginTop="28dp"
+        android:layout_marginBottom="10dip"
         android:text="View Favorites" />
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/button2"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="30dip"
         android:text="Search For Recipes" />
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/username"
         android:layout_alignTop="@+id/username"
@@ -70,4 +71,4 @@
     		android:layout_below="@+id/uselesstext"
             android:textStyle="italic" />
 
-</RelativeLayout>
+</LinearLayout>
