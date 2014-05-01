@@ -4,12 +4,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
  
+
+
+
+
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
  
+
+
+
+
+
 import android.annotation.TargetApi;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -24,12 +34,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-public class DisplayResults extends ListActivity  {
+public class DisplayResults extends ListActivity implements OnItemSelectedListener {
 
     // Progress Dialog
     private ProgressDialog pDialog;
@@ -42,6 +56,8 @@ public class DisplayResults extends ListActivity  {
     // url to get all products list
     private static String url_get_results = "http://whatscookinadmin.dukealums.com/search/get_results.php";
  
+    private Spinner sort_by_spinner;
+    
     // JSON Node names
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_RECIPES = "recipes";
@@ -53,6 +69,8 @@ public class DisplayResults extends ListActivity  {
    // private static final String QUERY = "onion";
     // products JSONArray
     JSONArray recipes = null;
+    private String calories;
+    private String time;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,17 +83,24 @@ public class DisplayResults extends ListActivity  {
 	        ingredients = new ArrayList<String>();
 	        ingredients = intent.getStringArrayListExtra("ingredient list");
 	        recipesList = new ArrayList<HashMap<String, String>>();
-	 
-	        // Loading products in Background Thread
+	        calories = intent.getStringExtra("calories");
+	        time = intent.getStringExtra("time");	 
+	        // Loading recipes in Background Thread
 	        new LoadResults().execute();
 	 
-	        // Get listview
-	        ListView lv = getListView();
-	        
+	        sort_by_spinner = (Spinner) findViewById(R.id.sort_by_spinner);
+	        sort_by_spinner.setOnItemSelectedListener(this);
+			// Create an ArrayAdapter using the string array and a default spinner layout
+			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+			        R.array.sort_by_array, android.R.layout.simple_spinner_item);
+			// Specify the layout to use when the list of choices appears
+			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			// Apply the adapter to the spinner
+			sort_by_spinner.setAdapter(adapter);
+			
+	        ListView l = getListView();
 	 
-	        // on seleting single product
-	        // launching Edit Product Screen
-	        lv.setOnItemClickListener(new OnItemClickListener() {
+	        l.setOnItemClickListener(new OnItemClickListener() {
 	 
 	            @Override
 	            public void onItemClick(AdapterView<?> parent, View view,
@@ -89,7 +114,7 @@ public class DisplayResults extends ListActivity  {
 	                        DisplayRecipe.class);
 	                // sending id to next activity
 	                in.putExtra(TAG_ID, id2);
-	 
+	                in.putExtra("view", "false");
 	                // starting new activity and expecting some response back
 	                startActivityForResult(in, 100);
 	            }
@@ -133,6 +158,7 @@ public class DisplayResults extends ListActivity  {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
     // Response from DisplayRecipe Activity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -179,7 +205,11 @@ public class DisplayResults extends ListActivity  {
             	//System.out.println("Ingredient:"+s);
             	String inlist = ingred.toString();
             	params.add(new BasicNameValuePair("query", inlist));
+            	params.add(new BasicNameValuePair("calories", calories));
+            	params.add(new BasicNameValuePair("time", time));
             	Log.d("Ingredient List: ", inlist);
+            	Log.d("Calories: ", calories);
+            	Log.d("Time: ", time);
             JSONObject json = jParser.makeHttpRequest(url_get_results, "GET", params);
  
             Log.d("Recipes: ", json.toString());
@@ -246,11 +276,77 @@ public class DisplayResults extends ListActivity  {
                             new int[] { R.id.id, R.id.name, R.id.calories, R.id.time });
                     // updating listview
                     setListAdapter(adapter);
+                	TextView numResults = (TextView) findViewById(R.id.num_results);
+                	numResults.setText("Results: " + recipesList.size());
                 }
             });
  
         }
  
     }
+
+	@Override
+	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) 
+	{
+		String sort = "";
+		if(pos == 0)		sort = "score";
+		else if(pos == 1)	sort = "calories";
+		else if(pos == 2)	sort = "time";
+		else if(pos == 3)	sort = "name";
+
+		Log.d("sort by: ", sort);
+		randomizedQuickSort(recipesList, 0, recipesList.size()-1, sort);
+        ListAdapter adapter = new SimpleAdapter(
+                DisplayResults.this, recipesList,
+                R.layout.result_item, new String[] { TAG_ID, TAG_NAME, TAG_CALORIES, TAG_TIME},
+                new int[] { R.id.id, R.id.name, R.id.calories, R.id.time });
+        // updating listview
+        setListAdapter(adapter);
+		
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> parent) {
+		// interface callback
+		
+	}
+	
+	public static void randomizedQuickSort(ArrayList<HashMap<String, String>> list, int p, int r, String sort)
+	{
+		if (p < r)
+		{
+			int q = randomizedPartition(list, p, r, sort);
+			randomizedQuickSort(list, p, q - 1, sort);
+			randomizedQuickSort(list, q + 1, r, sort);
+		}
+	}
+
+	public static int randomizedPartition(ArrayList<HashMap<String, String>> list, int p, int r, String sort)
+	{
+		int i = (int)(Math.random() * (r - p + 1)) + p;
+		swap(list, r, i);
+		return partition(list, p, r, sort);
+	}
+	
+	public static int partition(ArrayList<HashMap<String, String>> list, int p, int r, String sort)	// O(n)
+	{	String rValue = list.get(r).get(sort);	//int x = list[r];
+		int i = p - 1;
+		for(int j = p; j <= r - 1; j++)					// O(n)
+		{	String jValue = list.get(j).get(sort);
+			if(jValue.compareTo(rValue) <= 0)	//list[j] <= x)
+			{	i++;
+				swap(list, i, j);
+			}
+		}
+		swap(list, i + 1, r);
+		return i + 1;
+	}
+	
+	public static void swap(ArrayList<HashMap<String, String>> list, int i, int j)
+	{	
+		HashMap<String,String> temp = list.get(i);
+		list.set(i, list.get(j));
+		list.set(j, temp);
+	}	
 
 }

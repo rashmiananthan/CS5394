@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.ListActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,8 @@ public class SearchRecipes extends ListActivity implements OnItemSelectedListene
 	//public final static String EXTRA_MESSAGE = "sending ingredients";
 	//ArrayList<HashMap<String, String>> ingredientList;	
 	ArrayList<String> ingredientList;
+	String calories;
+	String time;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,10 +72,34 @@ public class SearchRecipes extends ListActivity implements OnItemSelectedListene
     	if(parent == calories_spinner)
     	{
     		String calories_selection = (String)calories_spinner.getItemAtPosition(pos);
+    		Log.d("Calories", calories_selection);
+    		if(calories_selection.equalsIgnoreCase("Less than 100 calories")){
+    			calories = Integer.toString(100);
+    		}else if(calories_selection.equalsIgnoreCase("Less than 250 calories")){
+    			calories = Integer.toString(250);
+    		}else if(calories_selection.equalsIgnoreCase("Less than 500 calories")){
+    			calories = Integer.toString(500);
+    		}else if(calories_selection.equalsIgnoreCase("Less than 1000 calories")){
+    			calories = Integer.toString(1000);
+    		}else{
+    			calories = Integer.toString(0);
+    		}
     	}
     	else if(parent == cook_time_spinner)
     	{
-    		String calories_selection = (String)cook_time_spinner.getItemAtPosition(pos);
+    		String time_selection = (String)cook_time_spinner.getItemAtPosition(pos);
+    		Log.d("Calories", time_selection);
+    		if(time_selection.equalsIgnoreCase("Less than 20 mins")){
+    			time = Integer.toString(10);
+    		}else if(time_selection.equalsIgnoreCase("Less than 30 mins")){
+    			time = Integer.toString(30);
+    		}else if(time_selection.equalsIgnoreCase("Less than 45 mins")){
+    			time = Integer.toString(45);
+    		}else if(time_selection.equalsIgnoreCase("Less than 1 hour")){
+    			time = Integer.toString(60);
+    		}else{
+    			time = Integer.toString(0);
+    		}
     	}
     }
 
@@ -94,6 +121,8 @@ public class SearchRecipes extends ListActivity implements OnItemSelectedListene
 			//If the user has entered ingredients, Display results activity
 	    	Intent intent = new Intent(this, DisplayResults.class);
 	    	intent.putStringArrayListExtra("ingredient list", ingredientList);
+	    	intent.putExtra("calories", calories);
+	    	intent.putExtra("time", time);
 	    	//intent.putExtra(EXTRA_MESSAGE, ingredientList);
 	    	startActivity(intent);				
 		}
@@ -104,6 +133,7 @@ public class SearchRecipes extends ListActivity implements OnItemSelectedListene
 	{
     	EditText editText = (EditText) findViewById(R.id.new_ingredient);
     	String newIngredient = editText.getText().toString();
+    	editText.setText("");
     	/*
     	HashMap<String, String> map = new HashMap<String, String>();
     	map.put("ingredient", newIngredient);

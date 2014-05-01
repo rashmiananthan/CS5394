@@ -18,6 +18,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.app.AlertDialog;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
  
@@ -46,7 +48,10 @@ public class AddRecipes extends Activity {
     EditText inputTime;
     EditText inputCalories;
     EditText inputInstructions;
-    
+    DatabaseHandler db;
+    SessionManagement session;
+    boolean userloggedin;
+    String user_email;
  // url to create new product
     private static String url_create_product = "http://whatscookinadmin.dukealums.com/create_product.php";
     
@@ -72,7 +77,15 @@ public int flag = 0;
         actv.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView  
         actv.setTextColor(Color.RED); 
 		setupActionBar();
+		db = new DatabaseHandler(this);
+		session = new SessionManagement(this);
+		HashMap<String,String> user;
+		userloggedin = db.isUserLoggedIn(getApplicationContext());
 		
+		if(userloggedin){
+			user = db.getUserDetails();
+			user_email = user.get("email");
+		}
 		// Edit Text
         inputName = (EditText) findViewById(R.id.inputName);
         inputIngredients = (EditText) findViewById(R.id.inputIngredients);
@@ -177,8 +190,9 @@ public int flag = 0;
              params.add(new BasicNameValuePair("time", time));
              params.add(new BasicNameValuePair("calories", calories));
              params.add(new BasicNameValuePair("instructions", instructions));
-            
+             params.add(new BasicNameValuePair("email", user_email));
              Log.d(TAG, "before sending input to localhost");
+             Log.d(TAG, "before sending input to localhost:email"+user_email);
             // getting JSON Object
             // Note that create product url accepts POST method
             JSONObject json = jsonParser.makeHttpRequest(url_create_product,"POST", params);

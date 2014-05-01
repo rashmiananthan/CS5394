@@ -37,7 +37,7 @@ public class HomePage extends Activity {
 		viewFavorites = (Button)findViewById(R.id.button3);
 		logout = (Button)findViewById(R.id.button4);
 		username = (TextView)findViewById(R.id.username);
-		lutext = (TextView)findViewById(R.id.username);
+		lutext = (TextView)findViewById(R.id.loggedouttext);
 		
 		db = new DatabaseHandler(this);
 		session = new SessionManagement(this);

@@ -61,6 +61,10 @@
             android:name="com.example.whatscookin.DisplayRecipe"
             android:label="@string/title_activity_display_recipe" >
         </activity>
+        <activity
+            android:name="com.example.whatscookin.AddFavoriteRecipe"
+            android:label="@string/title_activity_add_favorite_recipe" >
+        </activity>
     </application>
 
 </manifest>

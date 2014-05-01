@@ -29,9 +29,15 @@
         <item>Less than 45 mins</item>
         <item>Less than 1 hour</item>
     </string-array>
+    <string-array name="sort_by_array">
+        <item>Relevance</item>
+        <item>Calories-Ascending</item>
+        <item>Cook Time-Ascending</item>
+        <item>Recipe Name</item>
+    </string-array>
+
     <string name="missing_ingredient_message">You must enter at least one ingredient you would like in your recipe.</string>
     <string name="ok">OK</string>
-    
     <string name="title_activity_favorites">Favorites</string>
     <string name="title_activity_submit_recipe">SubmitRecipe</string>
     <string name="name">Recipe Name</string>
@@ -40,5 +46,6 @@
     <string name="title_activity_display_results">DisplayResults</string>
     <string name="title_activity_display_recipe">DisplayRecipe</string>
     <string name="button_no_thanks">No Thanks!</string>
-    
+    <string name="title_activity_add_favorite_recipe">AddFavoriteRecipe</string>
+
 </resources>

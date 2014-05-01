@@ -7,24 +7,42 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
 	// All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 5;
  
     // Database Name
     private static final String DATABASE_NAME = "whatscookin";
  
     // Login table name
     private static final String TABLE_LOGIN = "login";
- 
+    private static final String TABLE_RECIPES = "recipes"; 
     // Login Table Columns names
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_EMAIL = "email";
-  
+   
+    private static final String KEY_RNAME = "recipe_name";
+    private static final String KEY_RTIME = "recipe_time";
+    private static final String KEY_RCALORIES = "recipe_calories";
+    private static final String KEY_RINSTRUCTIONS = "recipe_instructions";
+    
+    private static final String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_LOGIN + "("
+                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_NAME + " TEXT,"
+                + KEY_EMAIL + " TEXT UNIQUE" + ")";
+    
+    private static final String CREATE_LOGIN_RECIPES = "CREATE TABLE " + TABLE_RECIPES + "("
+            + KEY_RNAME + " TEXT,"  
+    		+ KEY_RTIME + " INTEGER,"
+    		+ KEY_RCALORIES + " INTEGER,"
+    		+ KEY_RINSTRUCTIONS + " TEXT" +
+    ")";
+    
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -32,19 +50,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
  // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String CREATE_LOGIN_TABLE = "CREATE TABLE " + TABLE_LOGIN + "("
-                + KEY_ID + " INTEGER PRIMARY KEY,"
-                + KEY_NAME + " TEXT,"
-                + KEY_EMAIL + " TEXT UNIQUE" + ")";
         db.execSQL(CREATE_LOGIN_TABLE);
+        Log.d("DB", "Creating database "+db);
+        db.execSQL(CREATE_LOGIN_RECIPES);
+        Log.d("DB", "Creating database "+db);
     }
  
+   
     // Upgrading database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_LOGIN);
- 
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_RECIPES);
         // Create tables again
         onCreate(db);
     }
@@ -61,6 +79,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
       
         // Inserting Row
         db.insert(TABLE_LOGIN, null, values);
+        db.close(); // Closing database connection
+    }
+    
+    public void addRecipes(String name, int time, int calories, String instructions) {
+        SQLiteDatabase db = this.getWritableDatabase();
+ 
+        ContentValues values = new ContentValues();
+        values.put(KEY_RNAME, name); // Name
+        values.put(KEY_RTIME, time); // Name
+        values.put(KEY_RCALORIES, calories); // Name
+        values.put(KEY_RINSTRUCTIONS, instructions); // Name
+          Log.d("DB", "Adding recipe name"+name+" time "+time+" calories "+ calories+ " insttructions"+instructions);  
+        // Inserting Row
+        db.insert(TABLE_RECIPES, null, values);
         db.close(); // Closing database connection
     }
      
@@ -130,6 +162,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         // Delete All Rows
         db.delete(TABLE_LOGIN, null, null);
+        db.delete(TABLE_RECIPES, null, null);
         db.close();
     }
     

@@ -16,20 +16,13 @@
     		android:textSize="25dip"
             android:textStyle="bold" />
     
-    <TextView
-        	android:id="@+id/loggedouttext"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dip"
-    		android:textSize="10dip"
-            android:textStyle="italic" />
-    
     <Button
         android:id="@+id/button2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/button1"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="28dp"
         android:text="Add Recipes" />
 
     <Button
@@ -57,5 +50,24 @@
         android:layout_alignRight="@+id/username"
         android:layout_alignTop="@+id/username"
         android:text="LOGOUT" />
+    
+    <TextView
+        	android:id="@+id/uselesstext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+    		android:textSize="9dip"
+    		android:layout_below="@+id/button3"
+            android:textStyle="italic" />
+    
+    
+    <TextView
+        	android:id="@+id/loggedouttext"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dip"
+    		android:textSize="9dip"
+    		android:layout_below="@+id/uselesstext"
+            android:textStyle="italic" />
 
 </RelativeLayout>
